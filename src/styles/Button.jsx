@@ -1,31 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
+import Colors from '../constants/colors';
 
 export const Button = (props) => {
     return (
-        <Button>{props.children}</Button>
+        <StyledButton>{props.children}</StyledButton>
     )
 }
 
-export const RedButton = () => {
+export const RedButton = (props) => {
     return( 
-        <RedButton>{props.children}</RedButton>
+        <StyledRedButton>{props.children}</StyledRedButton>
     )
 }
 
-const Button = styled.button`
-        background-color: ; 
-        border: 1px solid ; 
-        color: ; 
+const StyledButton = styled.button`
+        background-color: ${Colors.red} ; 
+        border: 1px solid ${Colors.red}; 
+        color: rgba(${Colors.white_rgb}, 0.9); 
         padding: 0.5rem 1rem; 
         text-align: center; 
         text-decoration: none; 
         font-size: 1.2rem;
         width: fit-content;
-        height: fit-content
+        height: fit-content; 
+        border-radius: 10px; 
     `
 
-const RedButton = styled(Button)`
+const StyledRedButton = styled(Button)`
     background-color: ; 
     border: 1px solid ; 
     color: #feeee1; 

@@ -1,12 +1,32 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
+import Colors from '../constants/colors';
+import FormElement from '../components/FormElement';
+import {Button} from '../styles/Button';
 
 export default function LoginPage() {
     return (
-        <div>
-            
-        </div>
+        <StyledDiv>
+            <FormElement type="text" name="Email" var="email"/>
+            <FormElement type="text" name="Password" var="password"/>
+            <ButtonContainer><Button>Login</Button></ButtonContainer>
+        </StyledDiv>
     )
 }
+
+
+const StyledDiv = styled.div`
+    grid-row: 2; 
+    width: 60%; 
+    justify-self: center; 
+    align-self: center;
+    color: rgba(${Colors.white_rgb}, 0.8);
+`
+const ButtonContainer = styled.div`
+    display: flex; 
+    justify-content: center; 
+`
+
 
 /* 
 Login Page

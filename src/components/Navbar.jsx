@@ -1,26 +1,42 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import Colors from '../constants/colors';
+import AuthKit from '../functions/AuthKit'; 
+import {UserContext} from '../context/UserContext';
 
 export default function Navbar() {
-    const [user, setUser] = useState(null)
+    const authKit = new AuthKit();
+    const {user, setUser} = useContext(UserContext);
+    
+    useEffect(() => {
+        console.log(user);
+        const token = authKit.getToken();
+        if(token)
+        {   
+            const fetched_user = authKit.getMe({token: token}); 
+            setUser(fetched_user);
+        }
+        //check if token in localstorage
+        //if token, get user
+    }, [])
+    
     return (
         <NavbarContainer>
-            <div className="d-flex w-50">
-                <h3>Home</h3>
-                <h3>About</h3>
-            </div>
-
+            <NavItemContainer>
+                <NavItem href="/">Home</NavItem>
+                <NavItem href="/login">Login</NavItem>
+                <NavItem href="/register">Register</NavItem>
+                {user.token ? <NavItem href="/forum">Forum</NavItem> : null }
+            </NavItemContainer>
             <div>
-                {user ? <h3>{user.name}</h3> : <h3>Not Logged in</h3>}
+                {user.token ? <h4>{user.name}</h4> : <h4>Not Logged in</h4>}
             </div>
         </NavbarContainer>
     )
 }
-
+//background: ${Colors.black};
 const NavbarContainer = styled.div`
-    background: ${Colors.black};
-    padding: 0.5rem; 
+    padding: 0.7rem; 
     position: fixed; 
     width: 100%; 
     top: 0; 
@@ -29,5 +45,23 @@ const NavbarContainer = styled.div`
     grid-row: 1; 
     display: flex; 
     justify-content: space-around;
-    color: ${Colors.white}; 
+    color: ${Colors.grey}; 
+    border-bottom: ${Colors.grey} 1px solid;
+    background: rgba(${Colors.white_rgb}, 0.3);
+`
+const NavItem = styled.a`
+    margin-right: 1.5rem;
+    text-decoration: none; 
+    font-size: 1.5rem; 
+    color: ${Colors.grey};
+    font-weight: bold;
+    
+    &:hover {
+        text-decoration: none; 
+        color: ${Colors.red}
+    }
+`
+const NavItemContainer = styled.div`
+    display: flex; 
+    justify-content: start
 `

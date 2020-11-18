@@ -61,7 +61,7 @@ export default class {
         }
     }
 
-    getCountries = async(args) => {
+    getCountries = async() => {
         try {
             const response = await fetch(COUNTRIES_URL, {
                 method: "GET",
