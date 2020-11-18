@@ -15,9 +15,9 @@ export const RedButton = (props) => {
 }
 
 const StyledButton = styled.button`
-        background-color: ${Colors.red} ; 
-        border: 1px solid ${Colors.red}; 
-        color: rgba(${Colors.white_rgb}, 0.9); 
+        background-color: ${Colors.ruby}; 
+        border: 1px solid ${Colors.ruby}; 
+        color: ${Colors.white}; 
         padding: 0.5rem 1rem; 
         text-align: center; 
         text-decoration: none; 
@@ -25,6 +25,10 @@ const StyledButton = styled.button`
         width: fit-content;
         height: fit-content; 
         border-radius: 10px; 
+
+        &:hover {
+          border: 1px solid ${Colors.white}
+        }
     `
 
 const StyledRedButton = styled(Button)`

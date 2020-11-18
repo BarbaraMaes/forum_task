@@ -18,14 +18,13 @@ export default function FormElement(props) {
 }
 const Select = styled.select`
     grid-column: 2; 
-    background: none; 
+    background-color: transparent ; 
     color: ${Colors.white}; 
     border: none;
     border-bottom: 1px groove ${Colors.grey};
 `
 const Option = styled.option`
-    background: ${Colors.dark}; 
-    border: 1px solid transparent;
+    background: rgba(${Colors.dark_rgb}, 0.9);
     padding: 1rem 2rem;
 `
 
@@ -54,6 +53,7 @@ const Input = styled.input`
     &:focus {
         outline: none; 
     }
+}
 
 `
 const InputContainer = styled.div`

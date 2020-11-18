@@ -33,7 +33,7 @@ const StyledDiv = styled.div`
     width: 60%; 
     justify-self: center; 
     align-self: center;
-    color: rgba(${Colors.white_rgb}, 0.8);
+    color: ${Colors.white}
 `
 const ButtonContainer = styled.div`
     display: flex; 

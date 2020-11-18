@@ -19,7 +19,7 @@
 }*/
 
 
-export default {
+/*export default {
     //black: "#252627", 
     //red: "#bb0a21",
     //green: "#6D9F71",
@@ -31,5 +31,26 @@ export default {
     grey_rgb: "95, 97, 100", 
     white_rgb: "235, 245, 238",
     blue_rgb: "147, 187, 220"
+}*/
 
+/*export default {
+    dark: "#5c2018", 
+    dark_rgb: "92, 32, 24",
+    beige: "#f3e0dc", 
+    beige_rgb: "243, 224, 220",
+    white: "#F5F5F5",
+    red: "#bc4639", 
+    grey: "#d4a59a", 
+    grey_rgb: "212, 165, 154",
+    blue: "#4285f4", 
+
+}*/
+
+export default {
+    dark: "#3A3335", 
+    red: "#EB5E55", 
+    white: "#F5F5F5",
+    grey: "#C6D8D3", 
+    beige: "#FDF0D5", 
+    ruby: "#D81E5B"
 }

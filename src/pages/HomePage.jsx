@@ -21,7 +21,7 @@ const StyledDiv = styled.div`
     width: 50%; 
     justify-self: center; 
     align-self: center;
-    color: rgba(${Colors.white_rgb}, 0.8); 
+    color: ${Colors.white}; 
 `
 
 const StyledTitle = styled.h3`

@@ -9,7 +9,6 @@ export default function Navbar() {
     const {user, setUser} = useContext(UserContext);
     
     useEffect(() => {
-        console.log(user);
         const token = authKit.getToken();
         if(token)
         {   
@@ -34,7 +33,6 @@ export default function Navbar() {
         </NavbarContainer>
     )
 }
-//background: ${Colors.black};
 const NavbarContainer = styled.div`
     padding: 0.7rem; 
     position: fixed; 
@@ -45,20 +43,19 @@ const NavbarContainer = styled.div`
     grid-row: 1; 
     display: flex; 
     justify-content: space-around;
-    color: ${Colors.grey}; 
+    color: ${Colors.white}; 
     border-bottom: ${Colors.grey} 1px solid;
-    background: rgba(${Colors.white_rgb}, 0.3);
 `
 const NavItem = styled.a`
     margin-right: 1.5rem;
     text-decoration: none; 
     font-size: 1.5rem; 
-    color: ${Colors.grey};
+    color: ${Colors.white};
     font-weight: bold;
     
     &:hover {
         text-decoration: none; 
-        color: ${Colors.red}
+        color: ${Colors.ruby}
     }
 `
 const NavItemContainer = styled.div`
