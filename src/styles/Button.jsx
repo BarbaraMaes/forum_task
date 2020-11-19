@@ -8,9 +8,9 @@ export const Button = (props) => {
     )
 }
 
-export const RedButton = (props) => {
+export const SmallButton = (props) => {
     return( 
-        <StyledRedButton>{props.children}</StyledRedButton>
+        <StyledSmallButton>{props.children}</StyledSmallButton>
     )
 }
 
@@ -31,10 +31,10 @@ const StyledButton = styled.button`
         }
     `
 
-const StyledRedButton = styled(Button)`
-    background-color: ; 
-    border: 1px solid ; 
-    color: #feeee1; 
+const StyledSmallButton = styled(Button)`
+    padding: 0.2rem 0.5rem; 
+    font-size: 1rem; 
+
 `
 
 /* 

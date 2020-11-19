@@ -23,7 +23,7 @@ function App() {
               <Route exact path="/login" component={LoginPage}/>
               <Route exact path="/forum" component={PostListPage}/>
               <Route exact path="/new_post" component={PostCreatePage}/>
-              <Route exact path="/forum/:id" component={PostCreatePage}/>
+              <Route exact path="/forum/:id" component={PostDetailPage}/>
             </Switch>
             <Navbar />
           </Container>

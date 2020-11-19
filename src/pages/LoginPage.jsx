@@ -1,20 +1,28 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Colors from '../constants/colors';
 import FormElement from '../components/FormElement';
 import {Button} from '../styles/Button';
 import Authkit from '../functions/AuthKit';
 import {UserContext} from '../context/UserContext'; 
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 
 export default function LoginPage() {
     const authKit = new Authkit();
     const history = useHistory();
+    const location = useLocation();
+    const [userFields, setUserFields] = useState(null);
     const {setUser} = useContext(UserContext); 
     const [fields, setFields] = useState({
         email: null, 
         password: null,
     })
+
+    useEffect(() => {
+        if(location.user) {
+            setUserFields(location.user);
+        }
+    }, [])
 
     const handleLogin = async() => { 
         const token = await authKit.login(fields); 
@@ -28,8 +36,8 @@ export default function LoginPage() {
 
     return (
         <StyledDiv>
-            <FormElement type="text" name="Email" var="email" onChange={(e) => {setFields({...fields, email: e.target.value})}}/>
-            <FormElement type="text" name="Password" var="password" onChange={(e) => {setFields({...fields, password: e.target.value})}}/>
+            <FormElement value={userFields ? userFields.email: fields.email} type="text" name="Email" var="email" onChange={(e) => {setFields({...fields, email: e.target.value})}}/>
+            <FormElement value={userFields ? userFields.password: fields.password} type="text" name="Password" var="password" onChange={(e) => {setFields({...fields, password: e.target.value})}}/>
             <ButtonContainer><Button onClick={handleLogin}>Login</Button></ButtonContainer>
         </StyledDiv>
     )

@@ -8,7 +8,8 @@ const StyledContainer = styled.div`
     min-height: 100%;
     position: fixed;
     overflow: auto;
-    background-color: ${Colors.dark}
+    background-color: ${Colors.dark};
+
     `
     /*
     background-image: url("https://images.unsplash.com/photo-1549932967-c60dce5958ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"); 
@@ -28,6 +29,7 @@ const Overlay = styled.div`
     display: grid; 
     grid-template-rows: 5% auto; 
     grip-template-columns: auto;
+    overflow-y: scroll;
 `
 
 export const Container = ({children}) => {

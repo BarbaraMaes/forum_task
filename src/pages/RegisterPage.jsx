@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'; 
 import Authkit from '../functions/AuthKit';
 import FormElement from '../components/FormElement'; 
@@ -7,6 +8,7 @@ import Colors from '../constants/colors';
 
 
 export default function RegisterPage() {
+    const history = useHistory();
     const [countries, setCountries] = useState(null); 
     const [fields, setFields] = useState({
         email: null, 
@@ -37,7 +39,14 @@ export default function RegisterPage() {
     }
 
     const handleRegister = async() => {
-        if(validateFields()) console.log(fields);
+        if(validateFields()) {
+            console.log(fields); 
+            const user = await authKit.register({fields});
+            history.push({
+                pathname: "/login", 
+                user: user
+            })
+        };
     }
 
     return (

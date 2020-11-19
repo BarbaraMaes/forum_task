@@ -66,6 +66,7 @@ const NavbarContainer = styled.div`
     justify-content: space-around;
     color: ${Colors.white}; 
     border-bottom: ${Colors.grey} 1px solid;
+    background-color: rgba(0,0,0,0.6);
 `
 const NavItem = styled.a`
     margin-right: 1.5rem;
