@@ -1,17 +1,37 @@
-import React from 'react'; 
+import React, { useEffect, useContext } from 'react'; 
+import AuthKit from '../functions/AuthKit'; 
 import styled from 'styled-components';
 import Colors from '../constants/colors';
 import {Button} from '../styles/Button';
+import {UserContext} from '../context/UserContext'; 
+import { useHistory } from 'react-router-dom'
 
 export default function HomePage() {
+    //const authKit = new AuthKit();
+    const history = useHistory();
+    const {user, setUser} = useContext(UserContext);
+
+    useEffect(() => {
+        console.log(user);
+        /*const token = authKit.getToken();
+        console.log(token);
+        if(token && !user.token)
+        {   
+            async function handleSetUser() {
+                const fetched_user = await authKit.getMe({token: token}); 
+                setUser({token: token , user: fetched_user});
+            }
+            handleSetUser();
+        }*/
+    }, [])
     return (
         <StyledDiv>
             <StyledTitle>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</StyledTitle>
             <StyledText>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin magna nibh, suscipit vitae nisi ut, congue sollicitudin tortor. Quisque lobortis, est sed consectetur semper, nulla diam rhoncus magna, a semper diam nunc sit amet ligula. In ante quam, tempor at lacus ac, vulputate rutrum nisi. Mauris mattis ornare nisi vitae lacinia. Pellentesque interdum blandit pharetra. Pellentesque pellentesque felis enim, consequat suscipit felis efficitur sit amet. Mauris maximus, nisl ut pellentesque euismod, dolor odio rhoncus arcu, at elementum enim tortor vitae enim.</StyledText>
             <StyledLine />
-            <ButtonContainer>
-                <Button>Go To Posts</Button>
-            </ButtonContainer>
+            {user.token && <ButtonContainer>
+                <Button onClick={() => history.push("/forum")}>Go To Posts</Button>
+            </ButtonContainer>}
         </StyledDiv>
     )
 }

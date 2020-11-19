@@ -1,34 +1,55 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import Colors from '../constants/colors';
-import AuthKit from '../functions/AuthKit'; 
+import AuthKit from '../functions/AuthKit';
 import {UserContext} from '../context/UserContext';
+import {useHistory} from "react-router-dom";
 
 export default function Navbar() {
-    const authKit = new AuthKit();
     const {user, setUser} = useContext(UserContext);
+    const authkit = new AuthKit();
+    const history = useHistory();
     
     useEffect(() => {
-        const token = authKit.getToken();
-        if(token)
-        {   
-            const fetched_user = authKit.getMe({token: token}); 
-            setUser(fetched_user);
-        }
-        //check if token in localstorage
+        console.log(user);
+        /*//check if token in localstorage
         //if token, get user
-    }, [])
+        if(user.token)
+        {
+            async function handleSetUser() {
+                const fetched_user = await authKit.getMe({token: user.token}); 
+                setUser({...user , user: fetched_user});
+            }
+            handleSetUser();
+        }*/
+    }, [user])
+
+    const handleLogout = () => {
+        authkit.clearToken();
+        setUser({
+            user: null, 
+            token: null
+        })
+        history.push("/login");
+    }
+
     
     return (
         <NavbarContainer>
             <NavItemContainer>
                 <NavItem href="/">Home</NavItem>
+                {user.token ? 
+                <>
+                {/*<NavItem href="/forum">Forum</NavItem>*/}
+                <NavItem onClick={handleLogout}>Logout</NavItem>
+                </> :
+                <>                 
                 <NavItem href="/login">Login</NavItem>
-                <NavItem href="/register">Register</NavItem>
-                {user.token ? <NavItem href="/forum">Forum</NavItem> : null }
+                <NavItem href="/register">Register</NavItem> 
+                </>}
             </NavItemContainer>
             <div>
-                {user.token ? <h4>{user.name}</h4> : <h4>Not Logged in</h4>}
+            {user.token ? <h4>{user.user.firstName} {user.user.lastName}</h4> : <h4>Not Logged in</h4>}
             </div>
         </NavbarContainer>
     )
@@ -52,10 +73,11 @@ const NavItem = styled.a`
     font-size: 1.5rem; 
     color: ${Colors.white};
     font-weight: bold;
-    
+
     &:hover {
         text-decoration: none; 
-        color: ${Colors.ruby}
+        color: ${Colors.ruby}; 
+        cursor: pointer; 
     }
 `
 const NavItemContainer = styled.div`

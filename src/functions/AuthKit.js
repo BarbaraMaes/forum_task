@@ -80,8 +80,13 @@ export default class {
         return localStorage.getItem("token");
     }
 
-    setToken = (token) => {
+    setToken = (args) => {
+        const {token} = args;
         localStorage.setItem("token", token);
+    }
+
+    clearToken = () => {
+        localStorage.clear("token");
     }
 }
 

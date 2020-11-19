@@ -7,12 +7,12 @@ export default function FormElement(props) {
         <InputContainer>
             <Label htmlFor={props.var}>{props.name}</Label>
             {props.type !== "select" ? 
-            <Input type={props.type} name={props.var} /> : 
+            <Input {...props} type={props.type} name={props.var} /> : 
             <Select name={props.name} id={props.var}>
             {props.values && props.values.results.map(country => <Option key={country.id} value={country.id}>{country.title}</Option>)}
             </Select>
             }
-            {props.error && <Span>{props.error.message}</Span>}   
+            {props.error && <Span>{props.error}</Span>}   
         </InputContainer>
     )
 }
