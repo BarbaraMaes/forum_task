@@ -15,7 +15,7 @@ export default function PostItem({post, onClick}) {
             </div>
             <Footer>
                 <p>{post.author && post.author.firstName + " " + post.author.lastName}</p>
-                <p>Created at: {post.createdAt}</p>
+                <p>Created: {new Date(post.createdAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})}</p>
                 <SmallButton onClick={onClick}>View</SmallButton>
             </Footer>
             <StyledLine />

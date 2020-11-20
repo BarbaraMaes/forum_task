@@ -36,7 +36,7 @@ export default function PostDetailPage() {
                 </Author>
                 {post.title &&
                 <Header>
-                     <h3>{post.title} <MutedText>{post.category.title}</MutedText></h3>
+                     <h3>{post.title} <MutedText>{post.category && post.category.title}</MutedText></h3>
                 {post.userSubscribed ? <MutedText>You are following this post</MutedText>:<MutedText>Please Subscribe</MutedText> }
                 </Header>}
                 <Body>

@@ -5,7 +5,7 @@ const CATEGORY_URL = `${ROOT_URL}/api/v1/forum/categories/`;
 export default class {
 
     getCategories = async(args) => {
-        const {token} = args
+        const {token} = args; 
         try {
             const response = await fetch(CATEGORY_URL, {
                 method: "GET",
@@ -22,7 +22,8 @@ export default class {
     }
 
     addPost = async(args) => {
-        const {token, payload} = args
+        const {token, payload} = args; 
+        console.log(payload);
         try {
             const response = await fetch(POST_URL, {
                 method: "POST",

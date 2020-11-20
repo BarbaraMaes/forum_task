@@ -16,7 +16,7 @@ export default function RegisterPage() {
         firstName: null, 
         lastName: null, 
         password: null, 
-        country: null
+        country: 1
     });
     const [errors, setErrors] = useState({
         email: null, 
@@ -27,47 +27,58 @@ export default function RegisterPage() {
     })
     const authKit = new Authkit();
 
-    useEffect(async () => {
-        const response = await authKit.getCountries(); 
-        setCountries(response);
+    useEffect(() => {
+        async function fetchCountries() {
+            const fetched_countries = await authKit.getCountries();
+            setCountries(fetched_countries);
+        }
+        fetchCountries();
     }, []); 
 
-    const validateFields = () => {
+    /*const validateFields = () => {
+        if(fields.password.length < 6) {
+            setErrors({...errors, password: "password too short"}); 
+            return false; 
+        }
+        else if(new RegExp(/^\d+$/).test(fields.password)) {
+            setErrors({...errors, password: "Password should not be entirely numeric"}); 
+            return false; 
+        }
         //check if empty 
         //check min length for password 
         //check that email is an email
         return true; 
-    }
+    }*/
 
     const handleRegister = async() => {
-        if(validateFields()) {
-            console.log(fields); 
-            const user = await authKit.register({fields});
-            //check if succesfull, then redirect. 
-            history.push({
-                pathname: "/login", 
-                user: user
-            })
-        };
+        const response = await authKit.register({fields});
+        if(response.status === 400) {
+            Object.entries(response.error).map(error => setErrors({...errors, [error[0]]: error[1]}));
+        } 
+        else {
+        console.log(response);
+        history.push({
+            pathname: "/login", 
+            user: {
+                email: fields.email, 
+                password: fields.password
+            }
+        })}
+    }
+
+    const handleSetFields = (e) => {
+        setFields({...fields, [e.target.name]: e.target.value}); 
+        setErrors({...errors, [e.target.name]: null});
     }
 
     return (
         <StyledDiv>
             <Title>Register</Title>
-            <FormElement required error={errors.email} type="email" name="Email" var="email" onChange={(e) => {
-                setFields({...fields, email: e.target.value})
-                setErrors({...errors, email: null})}}/>
-            <FormElement required error={errors.firstName} type="text" name="First Name" var="firstName" onChange={(e) => {
-                setFields({...fields, firstName: e.target.value})
-                setErrors({...errors, firstName: null})}}/>
-            <FormElement required error={errors.lastName} type="text" name="Last Name" var="lastName" onChange={(e) => {
-                setFields({...fields, lastName: e.target.value})
-                setErrors({...errors, lastName: null})}}/>
-            <FormElement reqruired error={errors.password} type="password" name="Password" var="password" onChange={(e) => {
-                setFields({...fields, password: e.target.value}); 
-                setErrors({...errors, password: null})}}/>
-            <FormElement type="select" name="Country" var="country" values={countries} onChange={(e) => {
-                setFields({...fields, country: e.target.value})}}/>
+            <FormElement required error={errors.email} type="text" name="Email" var="email" onChange={(e) => {handleSetFields(e)}}/>
+            <FormElement required error={errors.firstName} type="text" name="firstName" var="First Name" onChange={(e) => {handleSetFields(e)}}/>
+            <FormElement required error={errors.lastName} type="text" name="lastName" var="Last Name" onChange={(e) => {handleSetFields(e)}}/>
+            <FormElement reqruired error={errors.password} type="password" name="password" var="Password" onChange={(e) => {handleSetFields(e)}}/>
+            {countries && <FormElement type="select" name="country" var="Country" values={countries.results} onChange={(e) => {handleSetFields(e)}}/>}
             <ButtonContainer><Button onClick={handleRegister}>Register</Button></ButtonContainer>
         </StyledDiv>
     )

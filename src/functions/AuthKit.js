@@ -13,14 +13,23 @@ pellesvanslos
 
 export default class {
     register = async(args) => {
+        console.log(args);
         try {
             const response = await fetch(REGISTER_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type" : 'application/json'
                 },
-                body: JSON.stringify(args)
+                body: JSON.stringify(args.fields)
             }); 
+            console.log(response);
+            if(response.status === 400) {
+                const res = await response.json()
+                return {
+                    status: 400, 
+                    error: res
+                }
+            }; 
             const user = await response.json();
             return(user);
         } catch (error) {

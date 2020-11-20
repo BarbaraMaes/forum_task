@@ -5,11 +5,11 @@ import Colors from '../constants/colors';
 export default function FormElement(props) {
     return (
         <InputContainer>
-            <Label htmlFor={props.var}>{props.name}</Label>
-            {props.type === "text" && <Input {...props} type={props.type} name={props.var} />}
+            <Label htmlFor={props.var}>{props.var}</Label>
+            {props.type === "text" || props.type ==="password" ? <Input {...props} type={props.type} name={props.var} /> : null}
             {props.type === "select" && 
-            <Select name={props.name} id={props.var}>
-            {props.values && props.values.results.map(country => <Option key={country.id} value={country.id}>{country.title}</Option>)}
+            <Select name={props.name} id={props.var} {...props}>
+            {props.values && props.values.map(item => <Option key={item.id} value={item.id}>{item.title}</Option>)}
             </Select>}
             {props.type === "textarea" && <Textarea {...props}></Textarea>}
             {props.error && <Span>{props.error}</Span>}   
@@ -49,7 +49,7 @@ const Label = styled.label`
 
 const Input = styled.input`
     grid-column: 2;
-    height: 75%; 
+    height: fit-content; 
     width: 100%; 
     border: none;
     border-bottom: 1px groove ${Colors.grey};

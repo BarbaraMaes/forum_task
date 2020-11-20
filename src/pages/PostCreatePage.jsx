@@ -6,10 +6,12 @@ import {UserContext} from '../context/UserContext';
 import FormElement from '../components/FormElement';
 import Colors from '../constants/colors'; 
 import {Title} from '../styles/Title';
+import {useHistory} from 'react-router-dom';
 
 export default function PostCreatePage() {
     const {user} = useContext(UserContext); 
     const forumKit = new ForumKit();
+    const history = useHistory();
     const [fields, setFields] = useState({
         title: null, 
         content: null, 
@@ -19,25 +21,29 @@ export default function PostCreatePage() {
 
     useEffect(() => {
         async function getCategories() {
+            console.log(user.token);
             const fetched_categories = await forumKit.getCategories({token: user.token}); 
-            console.log(fetched_categories);
-            setCategories(fetched_categories)
+            setCategories(fetched_categories);
         }
-        getCategories();
-    }, [])
+        if(user.token) getCategories();
+    }, [user])
 
     const handleNewPost = async() => {
-
+        await forumKit.addPost({token: user.token, payload: fields}); 
+        history.push({
+            pathname: "/forum", 
+            reload: true
+        });
     }
 
     return (
         <>
         <StyledDiv>
             <Title>New Post</Title>
-            <FormElement type="text" name="Title" var="title" onChange={(e) => {setFields({...fields, email: e.target.value})}}/>
-            <FormElement type="textarea" name="Content" var="content" onChange={(e) => {setFields({...fields, password: e.target.value})}}/>
-            <FormElement type="select" name="Category" var="category" rows={16} values={categories} onChange={(e) => {
-                setFields({...fields, category: e.target.value})}}/>
+            <FormElement type="text" name="Title" var="title" onChange={(e) => {setFields({...fields, title: e.target.value})}}/>
+            <FormElement type="textarea" name="Content" var="content" onChange={(e) => {setFields({...fields, content: e.target.value})}}/>
+            {categories && <FormElement type="select" name="Category" var="category" rows={16} values={categories.results} onChange={(e) => {
+                setFields({...fields, category: e.target.value})}}/>}
             <ButtonContainer><Button onClick={handleNewPost}>Save</Button></ButtonContainer>
         </StyledDiv>
         </>
