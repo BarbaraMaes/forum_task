@@ -1,6 +1,6 @@
 const ROOT_URL = "https://lab.willandskill.eu"; 
 const POST_URL = `${ROOT_URL}/api/v1/forum/posts/`;
-const CATEGORY_URL = `{ROOT_URL}/api/v1/forum/categories/`;
+const CATEGORY_URL = `${ROOT_URL}/api/v1/forum/categories/`;
 
 export default class {
 

@@ -10,7 +10,7 @@ export const Button = (props) => {
 
 export const SmallButton = (props) => {
     return( 
-        <StyledSmallButton>{props.children}</StyledSmallButton>
+        <StyledSmallButton {...props}>{props.children}</StyledSmallButton>
     )
 }
 

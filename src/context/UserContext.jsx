@@ -3,7 +3,7 @@ import AuthKit from '../functions/AuthKit';
 export const UserContext = createContext({}); 
 
 
-export default function DataProvider({children}) {
+export default function UserProvider({children}) {
     const authKit = new AuthKit();
     const [user, setUser] = useState({
         token: null, 

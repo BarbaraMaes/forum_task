@@ -5,6 +5,7 @@ import Authkit from '../functions/AuthKit';
 import FormElement from '../components/FormElement'; 
 import {Button} from '../styles/Button'; 
 import Colors from '../constants/colors';
+import {Title} from '../styles/Title';
 
 
 export default function RegisterPage() {
@@ -42,6 +43,7 @@ export default function RegisterPage() {
         if(validateFields()) {
             console.log(fields); 
             const user = await authKit.register({fields});
+            //check if succesfull, then redirect. 
             history.push({
                 pathname: "/login", 
                 user: user
@@ -51,6 +53,7 @@ export default function RegisterPage() {
 
     return (
         <StyledDiv>
+            <Title>Register</Title>
             <FormElement required error={errors.email} type="email" name="Email" var="email" onChange={(e) => {
                 setFields({...fields, email: e.target.value})
                 setErrors({...errors, email: null})}}/>

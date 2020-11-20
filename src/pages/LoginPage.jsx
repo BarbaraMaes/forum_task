@@ -6,6 +6,7 @@ import {Button} from '../styles/Button';
 import Authkit from '../functions/AuthKit';
 import {UserContext} from '../context/UserContext'; 
 import {useHistory, useLocation} from "react-router-dom";
+import {Title} from '../styles/Title';
 
 export default function LoginPage() {
     const authKit = new Authkit();
@@ -36,6 +37,7 @@ export default function LoginPage() {
 
     return (
         <StyledDiv>
+            <Title>Login</Title>
             <FormElement value={userFields ? userFields.email: fields.email} type="text" name="Email" var="email" onChange={(e) => {setFields({...fields, email: e.target.value})}}/>
             <FormElement value={userFields ? userFields.password: fields.password} type="text" name="Password" var="password" onChange={(e) => {setFields({...fields, password: e.target.value})}}/>
             <ButtonContainer><Button onClick={handleLogin}>Login</Button></ButtonContainer>

@@ -4,23 +4,32 @@ import {SmallButton} from '../styles/Button';
 import Colors from '../constants/colors';
 
 export default function PostItem({post, onClick}) {
+
     return (
-        <PostContainer onClick={onClick}>
-            <Header>
-                <h3>{post.title && post.title}</h3>
-            </Header>
+        <PostContainer>
+            {post.title && <Header>
+            {post.isPinned ? <PinnedTitle>{post.title}</PinnedTitle> : <PostTitle>{post.title}</PostTitle>}
+            </Header>}
             <div>
                 <p>{post.content && post.content}</p>
             </div>
             <Footer>
                 <p>{post.author && post.author.firstName + " " + post.author.lastName}</p>
                 <p>Created at: {post.createdAt}</p>
-                <SmallButton onClick={onclick}>View</SmallButton>
+                <SmallButton onClick={onClick}>View</SmallButton>
             </Footer>
             <StyledLine />
         </PostContainer>
     )
 }
+
+const PostTitle = styled.h3`
+
+`
+
+const PinnedTitle = styled(PostTitle)`
+    Color: ${Colors.ruby};
+`
 
 const PostContainer = styled.div`
     color: ${Colors.white}; 
@@ -38,8 +47,4 @@ const Footer = styled.div`
 const Header = styled.div`
     width: fit-content;
     margin: auto; 
-
-    &:hover {
-        background: ${Colors.ruby}
-    }
 `

@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom';
 import ForumKit from '../functions/ForumKit';
 import {UserContext} from '../context/UserContext';
 import Colors from '../constants/colors';
+import {SmallButton} from '../styles/Button';
 
 export default function PostDetailPage() {
     const forumKit = new ForumKit();
@@ -27,27 +28,32 @@ export default function PostDetailPage() {
             {post &&
             <> 
                 <Author>
-                <MutedLink href="/forum">Back to posts</MutedLink>
-                {post.author &&<MutedText>by: {post.author.firstName} {post.author.lastName} {post.author.email}</MutedText>}
-                <MutedText>Created: {new Date(post.createdAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric"})} </MutedText>
+                    <MutedLink href="/forum">Back to posts</MutedLink>
+                    {post.author &&<MutedText>by: {post.author.firstName} {post.author.lastName} {post.author.email} {post.author.country}</MutedText>}
+                    <MutedText>Created: {new Date(post.createdAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})} </MutedText>
+                    <MutedText>Last Updated: {new Date(post.updatedAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})}</MutedText>
+                    <MutedText>{post.viewCount} Views </MutedText>
                 </Author>
                 {post.title &&
                 <Header>
                      <h3>{post.title} <MutedText>{post.category.title}</MutedText></h3>
-                </Header>
-                }
+                {post.userSubscribed ? <MutedText>You are following this post</MutedText>:<MutedText>Please Subscribe</MutedText> }
+                </Header>}
                 <Body>
                     <p>{post.content}</p>
+                    <StyledLine />
+                    <StyledLine />
                 </Body>
                 <Replies>
                     <h2>Replies</h2>
+                    {!post.isClosed && <SmallButton>Add Reply</SmallButton>}
                     {post.responses && post.responses.map(reply => {
                         return(
                             <>
                                 <p>{reply.title}</p>
                                 <p>{reply.content}</p>
-                                <MutedText>{reply.author.firstName} {reply.author.lastName}</MutedText>
-                                <StyledLine />
+                                <MutedText>Author: {reply.author.firstName} {reply.author.lastName}</MutedText>
+                                <ShortLine />
                             </>
                         )
                     })}
@@ -57,8 +63,13 @@ export default function PostDetailPage() {
         </DetailContainer>
     )
 }
+
 const StyledLine = styled.hr`
     border-bottom: ${Colors.grey} 1px solid; 
+`
+
+const ShortLine = styled(StyledLine)`
+    width: 60%;
 `
 
 const DetailContainer = styled.div`
@@ -67,7 +78,7 @@ const DetailContainer = styled.div`
     width: 80%; 
     justify-self: center; 
     display: grid; 
-    grid-template-rows: 5% 5% max-content auto; 
+    grid-template-rows: 3% max-content max-content auto; 
     color: ${Colors.white}
 `
 const MutedText = styled.span`
@@ -87,8 +98,8 @@ const Author = styled.div`
 `
 
 const Header = styled.div`
-    display: flex; 
-    justify-content: center; 
+    margin-bottom: 1rem; 
+    text-align: center; 
     grid-row: 2
 `
 
@@ -98,6 +109,7 @@ const Body = styled.div`
 `
 const Replies = styled.div`
     grid-row: 4;
+    text-align: center
 `
 
 /* 

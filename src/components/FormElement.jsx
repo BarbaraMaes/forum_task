@@ -6,16 +6,24 @@ export default function FormElement(props) {
     return (
         <InputContainer>
             <Label htmlFor={props.var}>{props.name}</Label>
-            {props.type !== "select" ? 
-            <Input {...props} type={props.type} name={props.var} /> : 
+            {props.type === "text" && <Input {...props} type={props.type} name={props.var} />}
+            {props.type === "select" && 
             <Select name={props.name} id={props.var}>
             {props.values && props.values.results.map(country => <Option key={country.id} value={country.id}>{country.title}</Option>)}
-            </Select>
-            }
+            </Select>}
+            {props.type === "textarea" && <Textarea {...props}></Textarea>}
             {props.error && <Span>{props.error}</Span>}   
         </InputContainer>
     )
 }
+const Textarea = styled.textarea`
+    grid-column: 2;
+    border: 1px groove ${Colors.grey};
+    background: none; 
+    color: ${Colors.white}; 
+    font-size: 1rem;
+`
+
 const Select = styled.select`
     grid-column: 2; 
     background-color: transparent ; 
