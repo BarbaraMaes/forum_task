@@ -45,17 +45,18 @@ export default function RegisterPage() {
     }
 
     const handleSetFields = (e) => {
-        setFields({...fields, [e.target.name.toLowerCase()]: e.target.value}); 
+        setFields({...fields, [e.target.name]: e.target.value}); 
+        console.log(fields);
         setErrors({...errors, [e.target.name]: null});
     }
 
     return (
         <StyledDiv>
             <Title>Register</Title>
-            <FormElement required error={errors.email} type="text" name="Email" var="email" onChange={(e) => {handleSetFields(e)}}/>
-            <FormElement required error={errors.firstName} type="text" name="firstName" var="First Name" onChange={(e) => {handleSetFields(e)}}/>
-            <FormElement required error={errors.lastName} type="text" name="lastName" var="Last Name" onChange={(e) => {handleSetFields(e)}}/>
-            <FormElement reqruired error={errors.password} type="password" name="password" var="Password" onChange={(e) => {handleSetFields(e)}}/>
+            <FormElement required error={errors.email} type="text" name="email" var="email" onChange={(e) => {handleSetFields(e)}}/>
+            <FormElement required error={errors.firstName} type="text" name="firstName" var="firstName" onChange={(e) => {handleSetFields(e)}}/>
+            <FormElement required error={errors.lastName} type="text" name="lastName" var="lastName" onChange={(e) => {handleSetFields(e)}}/>
+            <FormElement required error={errors.password} type="password" name="password" var="password" onChange={(e) => {handleSetFields(e)}}/>
             {data.countries && <FormElement type="select" name="country" var="Country" values={data.countries.results} onChange={(e) => {handleSetFields(e)}}/>}
             <ButtonContainer><Button onClick={handleRegister}>Register</Button></ButtonContainer>
         </StyledDiv>

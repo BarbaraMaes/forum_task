@@ -42,12 +42,15 @@ const PostContainer = styled.div`
     &:hover {
         border: ${Colors.red} 1.5px inset; 
         box-shadow: 2px 1px 2px 1px${Colors.red};
+        cursor: pointer
     }
 `
 
 const Author = styled.div`
     grid-column : 3;
+    padding: 0.5rem;
 `
 const Body = styled.div`
     grid-column : 2;
+    padding: 0.5rem;
 `
