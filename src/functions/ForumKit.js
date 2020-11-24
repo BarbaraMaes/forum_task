@@ -90,14 +90,6 @@ export default class {
         } catch (error) {
             console.log(error);
         }
-        /* 
-        const url = ${ROOT_URL}/api/v1/forum/posts/
-        {
-            title,
-            content,
-            parent: {ID OF POST THAT WE WANT TO REPLY TO}
-        }
-        */
     }
 
     getReplies = async(args) => {
@@ -115,35 +107,5 @@ export default class {
         } catch (error) {
             console.log(error);
         }
-        //${ROOT_URL}/api/v1/forum/posts/${id}/replies
     }
 }
-
-/*
-Post List
-const url = ${ROOT_URL}/api/v1/forum/posts/
-
-Post Detail
-const url = ${ROOT_URL}/api/v1/forum/posts/{id}/
-
-Post Create
-const url = ${ROOT_URL}/api/v1/forum/posts/
-{
-title,
-content,
-category
-}
-
-Post Reply List
-const uri = ${ROOT_URL}/api/v1/forum/posts/${id}/replies
-Forum Task 6
-
-Post Create Reply
-const url = ${ROOT_URL}/api/v1/forum/posts/
-{
-title,
-content,
-parent: {ID OF POST THAT WE WANT TO REPLY TO}
-}
-
-*/

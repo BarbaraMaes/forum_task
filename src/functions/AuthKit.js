@@ -98,29 +98,3 @@ export default class {
         localStorage.clear("token");
     }
 }
-
-/*
-User Create
-const url = ${ROOT_URL}/api/v1/auth/users/
-{
-email,
-password,
-country,
-firstName,
-lastName
-}
-
-User Authenticate
-const url = ${ROOT_URL}/api/v1/auth/api-token-auth/
-const payload = {
-email,
-password
-}
-
-Me
-const url = ${ROOT_URL}/api/v1/me/
-
-Country List
-const url = ${ROOT_URL}/api/v1/countries/
-
-*/
