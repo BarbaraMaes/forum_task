@@ -14,10 +14,17 @@ export const SmallButton = (props) => {
     )
 }
 
+export const BlockButton = (props) => {
+  return(
+    <StyledBlockButton {...props}>{props.children}</StyledBlockButton>
+  )
+}
+
 const StyledButton = styled.button`
-        background-color: ${Colors.ruby}; 
-        border: 1px solid ${Colors.ruby}; 
-        color: ${Colors.white}; 
+        background-color: ${Colors.yellow}; 
+        border: 1px solid ${Colors.yellow}; 
+        color: ${Colors.dark};
+        font-weight: bold; 
         padding: 0.5rem 1rem; 
         text-align: center; 
         text-decoration: none; 
@@ -35,6 +42,10 @@ const StyledSmallButton = styled(Button)`
     padding: 0.2rem 0.5rem; 
     font-size: 1rem; 
 
+`
+
+const StyledBlockButton = styled(Button)`
+    width: 100%; 
 `
 
 /* 

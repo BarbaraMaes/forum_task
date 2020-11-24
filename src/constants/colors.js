@@ -52,6 +52,7 @@ export default {
     red: "#EB5E55", 
     white: "#F5F5F5",
     grey: "#C6D8D3", 
-    beige: "#FDF0D5", 
-    ruby: "#D81E5B"
+    ivory: "#FFFFF3", 
+    ruby: "#D81E5B", 
+    yellow : "#FEA82F"
 }

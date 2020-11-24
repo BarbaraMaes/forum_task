@@ -67,7 +67,7 @@ const NavItem = styled.a`
 
     &:hover {
         text-decoration: none; 
-        color: ${Colors.ruby}; 
+        color: ${Colors.red}; 
         cursor: pointer; 
     }
 `

@@ -8,6 +8,8 @@ import {SmallButton} from '../styles/Button';
 import {DataContext} from '../context/DataContext';
 import ReactMarkdown from 'react-markdown';
 import FormElement from '../components/FormElement';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle , faUser, faEdit} from '@fortawesome/free-solid-svg-icons';
 
 export default function PostDetailPage() {
     const forumKit = new ForumKit();
@@ -55,27 +57,35 @@ export default function PostDetailPage() {
 
     return (
         <DetailContainer>
+            <MutedLink href="/forum">Back to posts</MutedLink>
             {post &&
-            <> 
-                <Author>
-                    <MutedLink href="/forum">Back to posts</MutedLink>
-                    {post.author &&<MutedText>by: {post.author.firstName} {post.author.lastName} {post.author.email} {data.countries && (data.countries.results.find(country => country.id === post.author.country).title)}</MutedText>}
-                    <MutedText>Created: {new Date(post.createdAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})} </MutedText>
-                    <MutedText>Last Updated: {new Date(post.updatedAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})}</MutedText>
-                    <MutedText>{post.viewCount} Views </MutedText>
-                </Author>
+            <>  
                 {post.title &&
-                <Header>
-                     <h3><ReactMarkdown source={post.title} allowDangerousHtml /> <MutedText>{post.category && post.category.title}</MutedText></h3>
-                {post.userSubscribed ? <MutedText>You are following this post</MutedText>:<MutedText>Please Subscribe</MutedText> }
+                <Header>                    
+                    <h2><ReactMarkdown source={post.title} allowDangerousHtml /> </h2>
                 </Header>}
+                <Author>
+                    {post.author && <>
+                        <Icon><FontAwesomeIcon icon={faUser} size="3x"/></Icon>
+                        <Info>
+                            <AuthorText> {post.author.firstName} {post.author.lastName} {data.countries && (data.countries.results.find(country => country.id === post.author.country).title)}</AuthorText>
+                            <AuthorText>{post.author.email}</AuthorText>
+                            <AuthorText><FontAwesomeIcon icon={faEdit}/> {new Date(post.createdAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})}</AuthorText>
+                        </Info> 
+                    </>}
+                </Author>
                 <Body>
                     <p><ReactMarkdown source={post.content} allowDangerousHtml /></p>
-                    <StyledLine />
-                    <StyledLine />
                 </Body>
+                <Footer>
+                    <MutedText>{post.category && post.category.title}</MutedText>
+                    {post.userSubscribed ? <MutedText>You are following this post</MutedText>: <MutedText>Please Subscribe</MutedText>}
+                    <MutedText>Last Updated: {new Date(post.updatedAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})}</MutedText>
+                    <MutedText>{post.viewCount} Views </MutedText>
+                </Footer>
+
                 <Replies>
-                    <h2>Replies <a className="btn btn-sm btn-success" onClick={() => setShowForm(!showForm)}>{showForm ? "Hide Form" : "New Reply"}</a></h2>
+                    <h2><a className="btn btn-sm btn-success" onClick={() => setShowForm(!showForm)}>{showForm ? "Hide Form" : "New Reply"}</a> Replies </h2>
 
                         {showForm && <FormDiv>
                         {!post.isClosed &&
@@ -90,19 +100,20 @@ export default function PostDetailPage() {
                     
                     {post.responses && post.responses.map(reply => {
                         return(
-                            <>
-                                <p>{reply.title}</p>
+                            <Reply>
+                                <Icon><FontAwesomeIcon icon={faUserCircle} size="4x"/></Icon>
+                                <Info>
+                                <MutedText>{reply.author.firstName} {reply.author.lastName}</MutedText>
+                                <h5>{reply.title}</h5>
                                 <p>{reply.content}</p>
-                                <MutedText>Author: {reply.author.firstName} {reply.author.lastName}</MutedText>
-                                <ShortLine />
-                            </>
+                                </Info>
+                            </Reply>
                         )
                     })}
                 </Replies>
             </>
             }
         </DetailContainer>
-
     )
 }
 
@@ -112,21 +123,13 @@ const FormDiv = styled.div`
     width: 100%; 
 `
 
-const StyledLine = styled.hr`
-    border-bottom: ${Colors.grey} 1px solid; 
-`
-
-const ShortLine = styled(StyledLine)`
-    width: 60%;
-`
-
 const DetailContainer = styled.div`
     margin: 2rem 0; 
     grid-row: 2;
     width: 80%; 
     justify-self: center; 
     display: grid; 
-    grid-template-rows: 3% max-content max-content auto; 
+    grid-template-rows: 1% fit-content(5%) max-content fit-content(8%) fit-content(5%) auto; 
     color: ${Colors.white}
 `
 const MutedText = styled.span`
@@ -137,36 +140,52 @@ const MutedText = styled.span`
 const MutedLink = styled.a`
     font-weight: italic; 
     font-size: 0.9rem; 
+    float: left;
+`
+const styledDiv = styled.div`
+    margin: 1rem; 
+`
+const Reply = styled.div`
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: 20% 40%; 
+    justify-content: center;
 `
 
-const Author = styled.div`
-    grid-row: 1; 
+const Header = styled(styledDiv)`
+    grid-row: 2;
+    text-align: center;
+`
+const Body = styled(styledDiv)`
+    grid-row: 3; 
+    text-align: center; 
+`
+
+const Author = styled(styledDiv)`
+    grid-row: 4; 
+    display: grid;
+    grid-template-columns: 20% 40%; 
+    width: 50%; 
+`
+const AuthorText = styled.p`
+    margin: 0;
+    font-size: 0.8rem;
+`
+
+const Icon = styled.div`
+    grid-column: 1;
+`
+const Info = styled.div`
+    grid-column: 2;
+`
+
+const Footer = styled(styledDiv)`
+    grid-row: 5;
     display: flex; 
     justify-content: space-between
 `
 
-const Header = styled.div`
-    margin-bottom: 1rem; 
-    text-align: center; 
-    grid-row: 2
-`
-
-const Body = styled.div`
-    grid-row: 3; 
-    text-align: center; 
-`
-const Replies = styled.div`
-    grid-row: 4;
-    text-align: center; 
+const Replies = styled(styledDiv)`
+    grid-row: 6;
     display: grid; 
-    justify-content: center;
 `
-
-/* 
-This page should render all of the data that is returned from the API for Post
-Detail.
-A link to navigate to all posts should be present.
-VG
-Add possibility to add a response
-
-*/

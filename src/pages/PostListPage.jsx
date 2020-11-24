@@ -5,7 +5,7 @@ import ForumKit from '../functions/ForumKit';
 import PostItem from '../components/PostItem';
 import styled from 'styled-components';
 import {useHistory, useLocation} from 'react-router-dom';
-import {Button} from '../styles/Button';
+import {BlockButton} from '../styles/Button';
 
 export default function PostListPage() {
     const history = useHistory();
@@ -38,23 +38,15 @@ export default function PostListPage() {
 
     return (
         <View>
-            <Button onClick={handleNewPost}>Add New Post</Button>
+            <BlockButton onClick={handleNewPost}>Add New Post</BlockButton>
             {data.posts && data.posts.results.map(item => <PostItem onClick={() => handleGetDetail(item.id)} key={item.id} post={item}/>)}
         </View>
     )
 }
 
 const View = styled.div`
-grid-row: 2;
-margin: 2rem 1rem; 
-width: 60%;
-justify-self: center;
-
+    grid-row: 2;
+    margin: 2rem 1rem; 
+    width: 60%; 
+    justify-self: center;
 `
-
-/* 
-List all posts
-When the users clicks on a post they should navigate to the detail page for
-that post
-Add link so user can navigate to Post Create Page
-*/
