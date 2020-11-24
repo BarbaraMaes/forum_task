@@ -41,8 +41,8 @@ export default function PostCreatePage() {
         <StyledDiv>
             <Title>New Post</Title>
             <FormElement type="text" name="Title" var="title" onChange={(e) => {setFields({...fields, title: e.target.value})}}/>
-            <FormElement type="textarea" name="Content" var="content" onChange={(e) => {setFields({...fields, content: e.target.value})}}/>
-            {categories && <FormElement type="select" name="Category" var="category" rows={16} values={categories.results} onChange={(e) => {
+            <FormElement type="textarea" name="Content" var="content" rows={8} onChange={(e) => {setFields({...fields, content: e.target.value})}}/>
+            {categories && <FormElement type="select" name="Category" var="category" values={categories.results} onChange={(e) => {
                 setFields({...fields, category: e.target.value})}}/>}
             <ButtonContainer><Button onClick={handleNewPost}>Save</Button></ButtonContainer>
         </StyledDiv>

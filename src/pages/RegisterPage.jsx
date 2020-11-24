@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useContext, useState } from 'react'; 
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'; 
 import Authkit from '../functions/AuthKit';
@@ -6,11 +6,13 @@ import FormElement from '../components/FormElement';
 import {Button} from '../styles/Button'; 
 import Colors from '../constants/colors';
 import {Title} from '../styles/Title';
+import {DataContext} from '../context/DataContext';
 
 
 export default function RegisterPage() {
     const history = useHistory();
-    const [countries, setCountries] = useState(null); 
+    const {data} = useContext(DataContext);
+    const authKit = new Authkit();
     const [fields, setFields] = useState({
         email: null, 
         firstName: null, 
@@ -25,30 +27,6 @@ export default function RegisterPage() {
         password: null, 
         country: null
     })
-    const authKit = new Authkit();
-
-    useEffect(() => {
-        async function fetchCountries() {
-            const fetched_countries = await authKit.getCountries();
-            setCountries(fetched_countries);
-        }
-        fetchCountries();
-    }, []); 
-
-    /*const validateFields = () => {
-        if(fields.password.length < 6) {
-            setErrors({...errors, password: "password too short"}); 
-            return false; 
-        }
-        else if(new RegExp(/^\d+$/).test(fields.password)) {
-            setErrors({...errors, password: "Password should not be entirely numeric"}); 
-            return false; 
-        }
-        //check if empty 
-        //check min length for password 
-        //check that email is an email
-        return true; 
-    }*/
 
     const handleRegister = async() => {
         const response = await authKit.register({fields});
@@ -67,7 +45,7 @@ export default function RegisterPage() {
     }
 
     const handleSetFields = (e) => {
-        setFields({...fields, [e.target.name]: e.target.value}); 
+        setFields({...fields, [e.target.name.toLowerCase()]: e.target.value}); 
         setErrors({...errors, [e.target.name]: null});
     }
 
@@ -78,7 +56,7 @@ export default function RegisterPage() {
             <FormElement required error={errors.firstName} type="text" name="firstName" var="First Name" onChange={(e) => {handleSetFields(e)}}/>
             <FormElement required error={errors.lastName} type="text" name="lastName" var="Last Name" onChange={(e) => {handleSetFields(e)}}/>
             <FormElement reqruired error={errors.password} type="password" name="password" var="Password" onChange={(e) => {handleSetFields(e)}}/>
-            {countries && <FormElement type="select" name="country" var="Country" values={countries.results} onChange={(e) => {handleSetFields(e)}}/>}
+            {data.countries && <FormElement type="select" name="country" var="Country" values={data.countries.results} onChange={(e) => {handleSetFields(e)}}/>}
             <ButtonContainer><Button onClick={handleRegister}>Register</Button></ButtonContainer>
         </StyledDiv>
     )

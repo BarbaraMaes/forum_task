@@ -5,23 +5,53 @@ import ForumKit from '../functions/ForumKit';
 import {UserContext} from '../context/UserContext';
 import Colors from '../constants/colors';
 import {SmallButton} from '../styles/Button';
+import {DataContext} from '../context/DataContext';
+import ReactMarkdown from 'react-markdown';
+import FormElement from '../components/FormElement';
 
 export default function PostDetailPage() {
     const forumKit = new ForumKit();
     const {user} = useContext(UserContext);
+    const {data} = useContext(DataContext);
     const [post, setPost] = useState(null);
+    const [showForm, setShowForm] = useState(false);
     const {id} = useParams();
+    const [fields, setFields] = useState({
+        title: null, 
+        content: null
+    })
 
-    useEffect(() => {
-        async function fetchPost() {
-            const fetched_post = await forumKit.getPostDetail({token: user.token, id: id}); 
-            setPost(fetched_post);
-            console.log(fetched_post);
-        }   
+    const handleSetFields = (e) => {
+        setFields({...fields, [e.target.name.toLowerCase()]: e.target.value}); 
+    }
+
+    async function fetchPost() {
+        const fetched_post = await forumKit.getPostDetail({token: user.token, id: id}); 
+        setPost(fetched_post);
+    }
+
+    useEffect(() => {   
         if(user.token) { 
             fetchPost();
         } 
     }, [user.token]) 
+
+    const handlePostReply = async() => {
+        const response = await forumKit.postReply({
+            token: user.token, 
+            payload: {
+                title: fields.title, 
+                content: fields.content, 
+                parent: id
+            }
+        })
+        console.log(response); 
+        setFields({
+            title: null, 
+            content: null
+        })
+        fetchPost();
+    }
 
     return (
         <DetailContainer>
@@ -29,24 +59,35 @@ export default function PostDetailPage() {
             <> 
                 <Author>
                     <MutedLink href="/forum">Back to posts</MutedLink>
-                    {post.author &&<MutedText>by: {post.author.firstName} {post.author.lastName} {post.author.email} {post.author.country}</MutedText>}
+                    {post.author &&<MutedText>by: {post.author.firstName} {post.author.lastName} {post.author.email} {data.countries && (data.countries.results.find(country => country.id === post.author.country).title)}</MutedText>}
                     <MutedText>Created: {new Date(post.createdAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})} </MutedText>
                     <MutedText>Last Updated: {new Date(post.updatedAt).toLocaleDateString("en-GB", {weekday: "long", year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"})}</MutedText>
                     <MutedText>{post.viewCount} Views </MutedText>
                 </Author>
                 {post.title &&
                 <Header>
-                     <h3>{post.title} <MutedText>{post.category && post.category.title}</MutedText></h3>
+                     <h3><ReactMarkdown source={post.title} allowDangerousHtml /> <MutedText>{post.category && post.category.title}</MutedText></h3>
                 {post.userSubscribed ? <MutedText>You are following this post</MutedText>:<MutedText>Please Subscribe</MutedText> }
                 </Header>}
                 <Body>
-                    <p>{post.content}</p>
+                    <p><ReactMarkdown source={post.content} allowDangerousHtml /></p>
                     <StyledLine />
                     <StyledLine />
                 </Body>
                 <Replies>
-                    <h2>Replies</h2>
-                    {!post.isClosed && <SmallButton>Add Reply</SmallButton>}
+                    <h2>Replies <a className="btn btn-sm btn-success" onClick={() => setShowForm(!showForm)}>{showForm ? "Hide Form" : "New Reply"}</a></h2>
+
+                        {showForm && <FormDiv>
+                        {!post.isClosed &&
+                            <>
+                            <FormElement required value={fields.title} type="text" name="title" var="Title" onChange={(e) => {
+                                handleSetFields(e) }}/>
+                            <FormElement required value={fields.content} type="textarea" rows={5} name="content" var="Content" onChange={(e) => {
+                                handleSetFields(e) }}/> 
+                             <SmallButton onClick={handlePostReply}>Add Reply</SmallButton> 
+                             </>}
+                        </FormDiv>}
+                    
                     {post.responses && post.responses.map(reply => {
                         return(
                             <>
@@ -61,8 +102,15 @@ export default function PostDetailPage() {
             </>
             }
         </DetailContainer>
+
     )
 }
+
+const FormDiv = styled.div`
+    margin: 2rem; 
+    padding: 0.5rem;
+    width: 100%; 
+`
 
 const StyledLine = styled.hr`
     border-bottom: ${Colors.grey} 1px solid; 
@@ -109,7 +157,9 @@ const Body = styled.div`
 `
 const Replies = styled.div`
     grid-row: 4;
-    text-align: center
+    text-align: center; 
+    display: grid; 
+    justify-content: center;
 `
 
 /* 

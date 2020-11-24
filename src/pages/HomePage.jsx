@@ -9,21 +9,8 @@ import { useHistory } from 'react-router-dom'
 export default function HomePage() {
     //const authKit = new AuthKit();
     const history = useHistory();
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
-    useEffect(() => {
-        console.log(user);
-        /*const token = authKit.getToken();
-        console.log(token);
-        if(token && !user.token)
-        {   
-            async function handleSetUser() {
-                const fetched_user = await authKit.getMe({token: token}); 
-                setUser({token: token , user: fetched_user});
-            }
-            handleSetUser();
-        }*/
-    }, [])
     return (
         <StyledDiv>
             <StyledTitle>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</StyledTitle>

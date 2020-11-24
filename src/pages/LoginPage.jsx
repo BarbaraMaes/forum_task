@@ -41,7 +41,7 @@ export default function LoginPage() {
     } 
 
     const handleSetFields = (e) => {
-        setFields({...fields, [e.target.name]: e.target.value}); 
+        setFields({...fields, [e.target.name.toLowerCase()]: e.target.value}); 
         setError(null);
     }
 

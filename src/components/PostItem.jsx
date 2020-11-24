@@ -2,16 +2,17 @@ import React from 'react';
 import styled from "styled-components";
 import {SmallButton} from '../styles/Button';
 import Colors from '../constants/colors';
+import ReactMarkdown from 'react-markdown';
 
 export default function PostItem({post, onClick}) {
 
     return (
         <PostContainer>
             {post.title && <Header>
-            {post.isPinned ? <PinnedTitle>{post.title}</PinnedTitle> : <PostTitle>{post.title}</PostTitle>}
+            {post.isPinned ? <PinnedTitle><ReactMarkdown source={post.title} allowDangerousHtml /></PinnedTitle> : <PostTitle><ReactMarkdown source={post.title} allowDangerousHtml /></PostTitle>}
             </Header>}
             <div>
-                <p>{post.content && post.content}</p>
+                <p>{post.content && <ReactMarkdown source={post.content} allowDangerousHtml />}</p>
             </div>
             <Footer>
                 <p>{post.author && post.author.firstName + " " + post.author.lastName}</p>

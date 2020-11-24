@@ -15,7 +15,7 @@ export default function PostListPage() {
     const forumKit = new ForumKit(); 
 
     useEffect(() => {
-        if(!data && user.token || location.reload && user.token) {
+        if((!data.posts && user.token) || (location.reload && user.token)) {
             getData();
         }
 
@@ -33,13 +33,13 @@ export default function PostListPage() {
 
     const getData = async() => {
         const data = await forumKit.getPosts({token: user.token}); 
-        setData(data);
+        setData({...data, posts: data});
     }
 
     return (
         <View>
             <Button onClick={handleNewPost}>Add New Post</Button>
-            {data && data.results.map(item => <PostItem onClick={() => handleGetDetail(item.id)} key={item.id} post={item}/>)}
+            {data.posts && data.posts.results.map(item => <PostItem onClick={() => handleGetDetail(item.id)} key={item.id} post={item}/>)}
         </View>
     )
 }

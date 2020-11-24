@@ -15,7 +15,7 @@ export default function UserProvider({children}) {
         if(token) {
             const getUser = async() => {
                 const user = await authKit.getMe({token: token}); 
-                setUser({user:user, token: token})
+                setUser({user: user, token: token})
             }
             getUser();
         }

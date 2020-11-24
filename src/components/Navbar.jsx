@@ -12,16 +12,6 @@ export default function Navbar() {
     
     useEffect(() => {
         console.log(user);
-        /*//check if token in localstorage
-        //if token, get user
-        if(user.token)
-        {
-            async function handleSetUser() {
-                const fetched_user = await authKit.getMe({token: user.token}); 
-                setUser({...user , user: fetched_user});
-            }
-            handleSetUser();
-        }*/
     }, [user])
 
     const handleLogout = () => {
@@ -40,7 +30,7 @@ export default function Navbar() {
                 <NavItem href="/">Home</NavItem>
                 {user.token ? 
                 <>
-                {/*<NavItem href="/forum">Forum</NavItem>*/}
+                <NavItem href="/forum">Forum</NavItem>
                 <NavItem onClick={handleLogout}>Logout</NavItem>
                 </> :
                 <>                 
